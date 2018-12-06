@@ -27,10 +27,13 @@ class MultiWorkFiles(sgtk.platform.Application):
         self._tk_multi_workfiles = self.import_module("tk_multi_workfiles")
         self.__is_pyside_unstable = None
 
-        if self.engine.name == "tk-mari":
-            # Mari doesn't have the concept of a current scene so this app shouldn't
-            # provide any commands!
-            return
+        # For http://shotgun.d2-india.com/detail/Ticket/1141, consider mari session
+        # scripts as work files, so enable this for Mari.
+
+        # if self.engine.name == "tk-mari":
+        #     # Mari doesn't have the concept of a current scene so this app shouldn't
+        #     # provide any commands!
+        #     return
 
         # register the file open command
         self.engine.register_command(
@@ -79,6 +82,10 @@ class MultiWorkFiles(sgtk.platform.Application):
         #
         # currently, we have done QA on the following engines:
         SUPPORTED_ENGINES = ["tk-nuke", "tk-maya", "tk-3dsmax", "tk-houdini"]
+
+        # For http://shotgun.d2-india.com/detail/Ticket/1141, consider mari session
+        # scripts as work files, so enable this for Mari.
+        SUPPORTED_ENGINES.append("tk-mari")
 
         if self.engine.has_ui and not hasattr(sgtk, "_tk_multi_workfiles2_launch_at_startup"):
 
