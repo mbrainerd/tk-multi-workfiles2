@@ -227,9 +227,15 @@ class FileFinder(QtCore.QObject):
             
             # always have the work path:
             work_path = work_file["path"]
-            
-            # get fields for work file:
-            wf_fields = work_template.get_fields(work_path)
+
+            try:
+                # get fields for work file:
+                wf_fields = work_template.get_fields(work_path)
+            except TankError as e:
+                self._app.log_warning("Skipping path {}.\n"
+                                      "Unable to get fields due to error: {}".format(work_path, e))
+                # skip this path and continue
+                continue
             wf_ctx = None
 
 
