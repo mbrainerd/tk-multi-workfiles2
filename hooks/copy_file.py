@@ -20,7 +20,7 @@ class CopyFile(HookClass):
     Hook called when a file needs to be copied
     """
 
-    def execute(self, source_path, target_path, **kwargs):
+    def execute(self, source_path, target_path, read_only=False, **kwargs):
         """
         Main hook entry point
 
