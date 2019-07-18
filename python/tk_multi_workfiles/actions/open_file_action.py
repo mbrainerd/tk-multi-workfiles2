@@ -27,14 +27,15 @@ class OpenFileAction(FileAction):
     """
     """
 
-    def _copy_file(self, source_path, target_path):
+    def _copy_file(self, source_path, target_path, read_only):
         """
         Use hook to copy a file from source to target path
         """
         self._app.log_debug("Copying file '%s' to '%s' via hook" % (source_path, target_path))
         self._app.execute_hook("hook_copy_file", 
                                source_path=source_path, 
-                               target_path=target_path)
+                               target_path=target_path,
+                               read_only=read_only)
 
     def _do_copy_and_open(self, src_path, dst_path, version, read_only, new_ctx, parent_ui):
         """
@@ -100,7 +101,7 @@ class OpenFileAction(FileAction):
                 dst_dir = os.path.dirname(dst_path)
                 self._app.ensure_folder_exists(dst_dir)
                 # copy file:
-                self._copy_file(src_path, dst_path)
+                self._copy_file(src_path, dst_path, read_only)
             except Exception, e:
                 QtGui.QMessageBox.critical(parent_ui, "Copy file failed!", 
                                            "Copy of file failed!\n\n%s!" % e)
